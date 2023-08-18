@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RANDOM KITTENS</title>
+</head>
+<body>
+    <h1>Cats and cats app</h1>
+
+        <span id="error"></span>
+        <h2>Random kitties</h2>
+
+        <section id="randomCats">
+
+            <article>
+                <img alt="Must be a random cat here" width="250px" id="pic1">
+                <button id="catButton1" onClick="saveFavCats()">Save to favorites</button>
+            </article>
+            <article>
+                <img alt="Must be a random cat here" width="250px" id="pic2">
+                <button id="catButton2" onClick="saveFavCats()">Save to favorites</button>
+            </article>
+            <article>
+                <img alt="Must be a random cat here" width="250px" id="pic3">
+                <button id="catButton3" onClick="saveFavCats()">Save to favorites</button>
+            </article>
+            <article>
+                <img alt="Must be a random cat here" width="250px" id="pic4">
+                <button id="catButton4" onClick="saveFavCats()">Save to favorites</button>
+            </article>
+            <div>
+                <button id="newCatsButton" onclick="loadRandomCats()">Show me new cats</button>
+            </div>
+        </section>
+
+        <section id="favCats">
+            <h2>Favourite puppies</h2>
+        </section>
+
+    <script src="./main.js" ></script>  
+</body>
+</html>
