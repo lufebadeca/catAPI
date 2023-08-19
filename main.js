@@ -8,20 +8,23 @@ const button2 = document.getElementById('catButton2');
 const button3 = document.getElementById('catButton3');
 const button4 = document.getElementById('catButton4');
 
-const spanError = document.getElementById('error');
+const spanError = document.getElementById('errorSpan');
 
 const newCatsButton = document.getElementById('newCatsButton');
 
 const apiKeyDog = 'live_CuqkdVux8q9XyMkx51Ux4dBsBTFRrHS9qg3xdAKT67WzmkLj4G96SEeZyQLbgWHR';
 const apiKeyCat = 'live_TcPYZxBYEU9lxKL8zbHwL5JwYGKbnWoJmHqPoVYNy4OT4dKkfu9fEwJE1eNfzcij';
 
-const randomURL = "https://api.thecatapi.com/v1/images/search?limit=4&api_key=" + apiKeyCat;
-const favURL= "https://api.thecatapi.com/v1/favourites?&api_key=" + apiKeyCat;
-const delURL= (id) => `https://api.thecatapi.com/v1/favourites/${id}?api_key=${apiKeyCat}`;
+const randomURL = "https://api.thecatapi.com/v1/images/search?limit=4";
+const favURL= "https://api.thecatapi.com/v1/favourites";
+const delURL= (id) => `https://api.thecatapi.com/v1/favourites/${id}`;
 //const delURL= "https://api.thecatapi.com/v1/favourites/_WWmAUUgU?api_key=${apiKeyCat}";
 
 async function loadRandomCats(){
-    const resp = await fetch(randomURL);
+    const resp = await fetch(randomURL, {
+        method: 'GET',
+        headers: {'x-api-key': apiKeyCat, },
+    });
     const data = await resp.json();
     console.group("random cats");
     console.log(data);
@@ -44,7 +47,11 @@ async function loadRandomCats(){
 }
 
 async function loadFavCats(){
-    const resp = await fetch(favURL);
+    const resp = await fetch(favURL,
+        {
+            method: 'GET',
+            headers: {'X-API-KEY': apiKeyCat,},
+        });
     const data = await resp.json();
     if(resp.status!==200){
         spanError.innerHTML = `Hubo un error con los favoritos: error ${resp.status}`
@@ -81,13 +88,15 @@ async function loadFavCats(){
 async function saveFavCats(id){
     const resp = await fetch(favURL, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json',},
-        body: JSON.stringify( {image_id: id} ) //to ensure backend understand regardless the language
+        headers: {
+            'Content-Type': 'application/JSON',
+            'X-API-KEY': apiKeyCat,   },
+        body:  JSON.stringify( {image_id: id} ),  //to ensure backend understand regardless the language. Sends Json nstead of JS object
     });
 
     const data = await resp.json();
     if(resp.status!==200){
-        spanError.innerHTML = `Hubo un error al guardar favorito ${resp.status}`
+        spanError.innerHTML = `Hubo un error al guardar favorito ${resp.status} ${data}`
     }else{
         console.group("saved favourite");
         console.log(resp);
@@ -99,6 +108,7 @@ async function saveFavCats(id){
 async function deleteFavCats( myId ){
     const resp = await fetch(delURL( myId ), {
         method: 'DELETE',
+        headers: {'x-api-key': apiKeyCat,}
     });
 
     const data = await resp.json();
