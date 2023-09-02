@@ -19,6 +19,7 @@ const randomURL = "https://api.thecatapi.com/v1/images/search?limit=4";
 const favURL= "https://api.thecatapi.com/v1/favourites";
 const delURL= (id) => `https://api.thecatapi.com/v1/favourites/${id}`;
 //const delURL= "https://api.thecatapi.com/v1/favourites/_WWmAUUgU?api_key=${apiKeyCat}";
+const uploadFavURL= "https://api.thecatapi.com/v1/images/upload";
 
 async function loadRandomCats(){
     const resp = await fetch(randomURL, {
@@ -61,8 +62,8 @@ async function loadFavCats(){
         console.log(data);
         console.groupEnd();
 
-        const section = document.getElementById('favCats');     //identifies the already created section
-        section.innerHTML = "<h2>Favourite puppies</h2>";
+        const section = document.getElementById('favCats');     //identifies the already created section favCats
+        section.innerHTML = "<h2>Favourite cats</h2>";
 
         data.forEach( kitty => {        //iterates the data response
 
@@ -120,6 +121,33 @@ async function deleteFavCats( myId ){
         console.groupEnd();
     }
     loadFavCats();
+}
+
+async function uploadCatPicture(){
+    const form = document.getElementById('uploadForm');    //stores the application object of the HTML form
+    const formData = new FormData(form); //instance of class FormData prepared to include form objects and features, see argument
+    //In the varaible, the inner objects can be accessed via their names, by being used as argument for get method
+    console.log(formData.get('file'));
+
+    const resp = await fetch(uploadFavURL, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'multipart/form-data',   //option to send multipart type information
+            'X-API-KEY': apiKeyCat,   },
+        body:  formData,  
+    });
+
+    const data = await resp.json();
+    if(resp.status!==201){
+        spanError.innerHTML = `Hubo un error al guardar favorito ${resp.status} ${data}`
+    }else{
+        console.group("favourite uploaded successfully");
+        console.log(data);
+        console.groupEnd();
+        saveFavCats(data.id);
+    }
+    loadFavCats();
+
 }
 
     /*fetch(URL)

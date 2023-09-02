@@ -8,7 +8,7 @@
 <body>
     <h1>Cats and cats app</h1>
 
-        <span id="error"></span>
+        <span id="errorSpan"></span>
         <h2>Random kitties</h2>
 
         <section id="randomCats">
@@ -34,8 +34,22 @@
             </div>
         </section>
 
+        <section id="uploadCat">
+            <h2>Upload a picture of your cat</h2>
+
+            <form id="uploadForm">
+                <input id="file" type="file" name="file" />
+                <button type="button" onclick="uploadCatPicture()">Upload picture of kitty</button>
+            </form>
+        </section>
+
         <section id="favCats">
-            <h2>Favourite puppies</h2>
+            <h2>Favourite cats</h2>
+
+            <!--<article>
+                <img id="img1" width="150" alt="Favoutire cat here">
+                <button>Remove cat from favourites</button>
+            </article>-->
         </section>
 
     <script src="./main.js" ></script>  
